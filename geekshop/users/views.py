@@ -11,9 +11,9 @@ def login(request):
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
-            user = auth.authenticate(username=username,password=password)
+            user = auth.authenticate(username=username, password=password)
             if user.is_active:
-                auth.login(request,user)
+                auth.login(request, user)
                 return HttpResponseRedirect(reverse('index'))
         else:
             print(form.errors)
@@ -42,6 +42,7 @@ def register(request):
         'form': form
     }
     return render(request, 'users/register.html', context)
+
 
 def logout(request):
     auth.logout(request)
