@@ -3,3 +3,4 @@ venv/*
 /venv/Scripts/__pycache__/*
 /geekshop/db.sqlite3
 /media
+/__pycache__

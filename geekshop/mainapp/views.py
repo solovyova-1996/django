@@ -4,17 +4,16 @@ import os
 from .models import ProductCategory, Product
 
 
-# Create your views here.
 def index(request):
     context = {'title': 'geekshop'}
     return render(request, 'mainapp/index.html', context)
 
 
 def products(request):
-    product = Product.objects.all()
     context = {
         'title': 'catalog',
-        'products': product
+        'categories': ProductCategory.objects.all(),
+        'products': Product.objects.all()
     }
 
     return render(request, 'mainapp/products.html', context)
