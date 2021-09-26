@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.forms import ValidationError
 from users.models import User
 
 
@@ -36,3 +37,9 @@ class UserRegisterForm(UserCreationForm):
             'placeholder'] = 'Подтвердите пароль'
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
+
+    def clean_username(self):
+        name = self.cleaned_data['username']
+        if name == 'Stas':
+            raise ValidationError('У вас неподходящее имя')
+        return name
