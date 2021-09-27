@@ -60,3 +60,16 @@ class UserProfileForm(UserChangeForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
         self.fields['image'].widget.attrs['class'] = 'custom-file-input'
+
+    def clean_image(self):
+        image = self.cleaned_data['image']
+        if image and image.size > 10000000:
+            print(image.size)
+            raise ValidationError('Фотография слишком большая')
+        return image
+
+    def clean_first_name(self):
+        name = self.cleaned_data['first_name']
+        if name == 'Stas':
+            raise ValidationError('У вас неподходящее имя')
+        return name

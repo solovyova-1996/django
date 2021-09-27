@@ -48,9 +48,12 @@ def profile(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))
+    else:
+        messages.error(request, 'Неверно заполнены поля')
+        form = UserProfileForm(instance=request.user)
     context = {
         'title': 'Профиль',
-        'form': UserProfileForm(instance=request.user)
+        'form': form
     }
     return render(request, 'users/profile.html', context)
 
