@@ -11,4 +11,7 @@ class Basket(models.Model):
     update_timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'Корзина для {self.user.username}'
+        return f'Корзина для {self.user.username} | Продукт {self.product.name}'
+
+    def sum(self):
+        return self.quantity * self.product.price

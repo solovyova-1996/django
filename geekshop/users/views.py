@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.contrib import messages
 
 from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from basket.models import Basket
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -41,7 +43,7 @@ def register(request):
     }
     return render(request, 'users/register.html', context)
 
-
+@login_required
 def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
@@ -53,7 +55,8 @@ def profile(request):
         form = UserProfileForm(instance=request.user)
     context = {
         'title': 'Профиль',
-        'form': form
+        'form': form,
+        'baskets': Basket.objects.filter(user=request.user)
     }
     return render(request, 'users/profile.html', context)
 
