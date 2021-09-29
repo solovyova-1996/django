@@ -7,6 +7,7 @@ from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from basket.models import Basket
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def login(request):
     if request.method == 'POST':
@@ -27,6 +28,7 @@ def login(request):
     }
     return render(request, 'users/login.html', context)
 
+
 @login_required
 def register(request):
     if request.method == 'POST':
@@ -43,19 +45,20 @@ def register(request):
     }
     return render(request, 'users/register.html', context)
 
+
 @login_required
 def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Профиль сохранен')
             return HttpResponseRedirect(reverse('users:profile'))
-    else:
-        messages.error(request, 'Неверно заполнены поля')
-        form = UserProfileForm(instance=request.user)
+        else:
+            messages.error(request, 'Профиль не сохранен')
     context = {
         'title': 'Профиль',
-        'form': form,
+        'form': UserProfileForm(instance=request.user),
         'baskets': Basket.objects.filter(user=request.user)
     }
     return render(request, 'users/profile.html', context)
