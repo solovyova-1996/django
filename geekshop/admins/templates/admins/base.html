@@ -35,7 +35,7 @@
             <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="{%  url 'users:logout' %}">Logout</a>
+                <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
             </div>
         </li>
     </ul>
@@ -52,7 +52,7 @@
                         </div>
                         Пользователи
                     </a>
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="{% url 'admins:admins_categories' %}">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-shopping-basket"></i>
                         </div>

@@ -1,7 +1,8 @@
-from django.shortcuts import render
-import json
-import os
+from django.shortcuts import render, HttpResponseRedirect
+from django.urls import reverse
+
 from .models import ProductCategory, Product
+
 
 
 def index(request):
@@ -17,3 +18,6 @@ def products(request):
     }
 
     return render(request, 'mainapp/products.html', context)
+
+
+

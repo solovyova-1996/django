@@ -1,6 +1,7 @@
 from django import forms
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
+from mainapp.models import ProductCategory
 
 
 class UserAdminRegisterForm(UserRegisterForm):
@@ -30,3 +31,14 @@ class UserAdminProfileForm(UserProfileForm):
                 field.widget.attrs['class'] = 'form-control'
             else:
                 field.widget.attrs['class'] = 'form-control py-4'
+
+
+class ProductCategoryEditForm(forms.ModelForm):
+    class Meta:
+        model = ProductCategory
+        fields = ['name', 'description']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control py-4'
