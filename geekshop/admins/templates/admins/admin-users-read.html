@@ -33,37 +33,30 @@
                                 </tr>
                                 </tfoot>
                                 <tbody>
-{#                                <tr>#}
-{#                                    <td><a href="#" style="color: dodgerblue">vokler</a></td>#}
-{#                                    <td></td>#}
-{#                                    <td></td>#}
-{#                                    <td></td>#}
-{#                                    <td class="text-center"><i class="fas fa-check-circle"></i></td>#}
-{#                                    <td class="text-center"><i class="fas fa-check-circle"></i></td>#}
-{#                                </tr>#}
-                                {% for user in object_list%}
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'admins:admins_user_update' user.id %}" style="color: dodgerblue">{{ user.username }}</a>
-                                    </td>
-                                    <td>{{ user.first_name }}</td>
-                                    <td>{{ user.last_name }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td class="text-center">
-                                        {% if user.is_staff %}
-                                            <i class="fas fa-check-circle"></i>
-                                        {% else %}
-                                        <i class="fas fa-times-circle"></i>
-                                   {% endif %}
-                                </td>
-                                <td class="text-center">
-                                        {% if user.is_staff %}
-                                            <i class="fas fa-check-circle"></i>
-                                        {% else %}
-                                        <i class="fas fa-times-circle"></i>
-                                   {% endif %}
-                                </td>
-                                </tr>
+                                {% for user in object_list %}
+                                    <tr style=" background-color:  {% if not user.is_active %}#f8d7da {% endif %}">
+                                        <td>
+                                            <a href="{% url 'admins:admins_user_update' user.id %}"
+                                               style="color: dodgerblue">{{ user.username }}</a>
+                                        </td>
+                                        <td>{{ user.first_name }}</td>
+                                        <td>{{ user.last_name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td class="text-center">
+                                            {% if user.is_staff %}
+                                                <i class="fas fa-check-circle"></i>
+                                            {% else %}
+                                                <i class="fas fa-times-circle"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if user.is_active %}
+                                                <i class="fas fa-check-circle"></i>
+                                            {% else %}
+                                                <i class="fas fa-times-circle"></i>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>
@@ -80,7 +73,7 @@
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; GeekShop 2021</div>
+                    <div class="text-muted">Copyright &copy; GeekShop {% now 'Y' %}</div>
                 </div>
             </div>
         </footer>

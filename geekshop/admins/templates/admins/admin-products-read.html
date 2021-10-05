@@ -37,25 +37,26 @@
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                {% for product in object_list%}
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'admins:admins_products_update' product.id %}" style="color: dodgerblue">{{ product.name }}</a>
-                                    </td>
-                                    <td>{{ product.category}}</td>
-                                    <td>{{ product.image }}</td>
-                                    <td>{{ product.short_desc }}</td>
-                                    <td>{{ product.description }}</td>
-                                    <td>{{ product.price }}</td>
-                                    <td>{{ product.quantity }}</td>
-                                    <td class="text-center">
-                                        {% if product.is_active %}
-                                            <i class="fas fa-check-circle"></i>
-                                        {% else %}
-                                        <i class="fas fa-times-circle"></i>
-                                   {% endif %}
-                                </td>
-                                </tr>
+                                {% for product in object_list %}
+                                    <tr style=" background-color:  {% if not product.is_active %}#f8d7da {% endif %}">
+                                        <td>
+                                            <a href="{% url 'admins:admins_products_update' product.id %}"
+                                               style="color: dodgerblue">{{ product.name }}</a>
+                                        </td>
+                                        <td>{{ product.category }}</td>
+                                        <td>{{ product.image }}</td>
+                                        <td>{{ product.short_desc }}</td>
+                                        <td>{{ product.description }}</td>
+                                        <td>{{ product.price }}</td>
+                                        <td>{{ product.quantity }}</td>
+                                        <td class="text-center">
+                                            {% if product.is_active %}
+                                                <i class="fas fa-check-circle"></i>
+                                            {% else %}
+                                                <i class="fas fa-times-circle"></i>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>

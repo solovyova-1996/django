@@ -24,7 +24,8 @@
                         <div class="col-lg-12">
                             <div class="custom-file">
                                 {{ form.image }}
-                                <label class="custom-file-label" for="{{form.image.id_for_label  }}">Выберите изображение</label>
+                                <label class="custom-file-label" for="{{ form.image.id_for_label }}">Выберите
+                                    изображение</label>
                             </div>
                         </div>
                     </div>
@@ -42,7 +43,7 @@
                     <div class="form-row">
                         <div class="col-lg-6">
                             <label class="small mb-1" for="{{ form.password1.id_for_label }}">Пароль</label>
-                           {{ form.password1 }}
+                            {{ form.password1 }}
                         </div>
                         <div class="col-lg-6">
                             <label class="small mb-1" for="{{ form.password2.id_for_label }}">Повторите пароль</label>
@@ -60,7 +61,7 @@
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; GeekShop 2021</div>
+                    <div class="text-muted">Copyright &copy; GeekShop {% now 'Y' %}</div>
                 </div>
             </div>
         </footer>

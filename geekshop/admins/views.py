@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+
+
 from users.models import User
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
 from geekshop.mixin import CustomDispatchMixin
@@ -53,12 +55,15 @@ class UserDeleteView(DeleteView, CustomDispatchMixin):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_active = False
+        if self.object.is_active:
+            self.object.is_active = False
+        else:
+            self.object.is_active = True
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
 
-class CategoriesListView(ListView):
+class CategoriesListView(ListView, CustomDispatchMixin):
     model = ProductCategory
     template_name = 'admins/admin-categories-read.html'
 
@@ -69,7 +74,7 @@ class CategoriesListView(ListView):
         return context
 
 
-class CategoriesCreateView(CreateView):
+class CategoriesCreateView(CreateView, CustomDispatchMixin):
     model = ProductCategory
     template_name = 'admins/admin-categories-create.html'
     form_class = ProductCategoryEditForm
@@ -93,19 +98,22 @@ class CategoriesUpdateView(UpdateView, CustomDispatchMixin):
         return context
 
 
-class CategoriesDeleteView(DeleteView):
+class CategoriesDeleteView(DeleteView, CustomDispatchMixin):
     model = ProductCategory
     template_name = 'admins/admin-categories-read.html'
     success_url = reverse_lazy('admins:admins_categories')
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_active = False
+        if self.object.is_active:
+            self.object.is_active = False
+        else:
+            self.object.is_active = True
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ProductListView(ListView):
+class ProductListView(ListView, CustomDispatchMixin):
     model = Product
     template_name = 'admins/admin-products-read.html'
 
@@ -116,7 +124,7 @@ class ProductListView(ListView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(CreateView, CustomDispatchMixin):
     model = Product
     template_name = 'admins/admin-products-create.html'
     form_class = ProductForm
@@ -128,7 +136,7 @@ class ProductCreateView(CreateView):
         return context
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(UpdateView, CustomDispatchMixin):
     model = Product
     template_name = 'admins/admin-products-update-delete.html'
     form_class = ProductForm
@@ -140,13 +148,16 @@ class ProductUpdateView(UpdateView):
         return context
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(DeleteView, CustomDispatchMixin):
     model = Product
     template_name = 'admins/admin-products-update-delete.html'
     success_url = reverse_lazy('admins:admins_products')
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_active = False
+        if self.object.is_active:
+            self.object.is_active = False
+        else:
+            self.object.is_active = True
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
