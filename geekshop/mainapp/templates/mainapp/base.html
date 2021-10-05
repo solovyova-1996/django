@@ -1,5 +1,4 @@
 {%load static%}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,6 @@
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>{{title|title}}</title>
     <!-- Bootstrap core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
@@ -40,12 +38,12 @@
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:profile' %}">User
+                    <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}
                         <i class="fas fa-user-circle"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin/admin.html">
+                    <a class="nav-link" href="{% url 'admins:index' %}">
                         <i class="fas fa-users-cog"></i>
                     </a>
                 </li>

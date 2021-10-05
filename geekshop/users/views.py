@@ -8,7 +8,6 @@ from basket.models import Basket
 from django.contrib.auth.decorators import login_required
 
 
-@login_required
 def login(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
@@ -29,7 +28,6 @@ def login(request):
     return render(request, 'users/login.html', context)
 
 
-@login_required
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(data=request.POST)
