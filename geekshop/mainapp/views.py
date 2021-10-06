@@ -10,6 +10,7 @@ def index(request):
 
 def products(request, category_id=None, page_id=1):
     products = Product.objects.filter(category_id=category_id) if category_id != None else Product.objects.all()
+    products = Product.objects.all() if category_id == 0 else Product.objects.filter(category_id=category_id)
     paginator = Paginator(products, per_page=3)
     try:
         products_paginator = paginator.page(page_id)
@@ -21,6 +22,16 @@ def products(request, category_id=None, page_id=1):
         'title': 'catalog',
         'categories': ProductCategory.objects.all(),
         'products': products_paginator
+    }
+
+    return render(request, 'mainapp/products.html', context)
+
+
+def categories_discharge(request):
+    context = {
+        'title': 'catalog',
+        'categories': ProductCategory.objects.all(),
+        'products': Product.objects.all()
     }
 
     return render(request, 'mainapp/products.html', context)
