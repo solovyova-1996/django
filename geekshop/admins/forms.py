@@ -54,7 +54,7 @@ class ProductForm(forms.ModelForm):
     def __init__(self, *qrgs, **kwargs):
         super().__init__(*qrgs, **kwargs)
         for field_name, field in self.fields.items():
-            if field_name == 'image':
+            if field_name == 'image' or field_name == 'category':
                 field.widget.attrs['class'] = 'form-control'
             else:
                 field.widget.attrs['class'] = 'form-control py-4'

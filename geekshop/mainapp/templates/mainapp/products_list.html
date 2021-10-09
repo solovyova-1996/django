@@ -1,6 +1,6 @@
 <div class="products_list">
     <div class="row">
-                    {% for product in products %}
+                    {% for product in page_obj %}
                         {% if product.is_active %}
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100">

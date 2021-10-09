@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import ListView
+
 from .models import ProductCategory, Product
 
 
@@ -8,30 +9,23 @@ def index(request):
     return render(request, 'mainapp/index.html', context)
 
 
-def products(request, category_id=None, page_id=1):
-    products = Product.objects.filter(category_id=category_id) if category_id != None else Product.objects.all()
-    products = Product.objects.all() if category_id == 0 else Product.objects.filter(category_id=category_id)
-    paginator = Paginator(products, per_page=3)
-    try:
-        products_paginator = paginator.page(page_id)
-    except PageNotAnInteger:
-        products_paginator = paginator.page(1)
-    except EmptyPage:
-        products_paginator = paginator.page(paginator.num_pages)
-    context = {
-        'title': 'catalog',
-        'categories': ProductCategory.objects.all(),
-        'products': products_paginator
-    }
+class ProductListview(ListView):
+    model = Product
+    template_name = 'mainapp/products.html'
+    title = 'catalog'
+    paginate_by = 3
+    ordering = ['-id']
 
-    return render(request, 'mainapp/products.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProductListview, self).get_context_data(**kwargs)
+        context['categories'] = ProductCategory.objects.all()
+        return context
 
-
-def categories_discharge(request):
-    context = {
-        'title': 'catalog',
-        'categories': ProductCategory.objects.all(),
-        'products': Product.objects.all()
-    }
-
-    return render(request, 'mainapp/products.html', context)
+    def get_queryset(self):
+        if self.kwargs:
+            if 'category_id' in self.kwargs.keys():
+                return Product.objects.filter(category=self.kwargs['category_id'])
+            elif 'discharge' in self.kwargs.keys():
+                return Product.objects.all()
+        else:
+            return Product.objects.all()
