@@ -2,13 +2,12 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.utils.decorators import method_decorator
 from django.views.generic import FormView, UpdateView
-from django.contrib.auth.decorators import user_passes_test
+
 
 from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from basket.models import Basket
-from geekshop.mixin import BaseClassContextMixin
+from geekshop.mixin import BaseClassContextMixin, CustomDispatchMixinIsAuthen
 from .models import User
 
 
@@ -35,7 +34,7 @@ class RegisterListview(FormView, BaseClassContextMixin):
         return redirect(self.success_url)
 
 
-class ProfileFormView(UpdateView, BaseClassContextMixin):
+class ProfileFormView(UpdateView, BaseClassContextMixin, CustomDispatchMixinIsAuthen):
     model = User
     form_class = UserProfileForm
     template_name = 'users/profile.html'
@@ -44,9 +43,6 @@ class ProfileFormView(UpdateView, BaseClassContextMixin):
     def get_object(self, queryset=None):
         return get_object_or_404(User, pk=self.request.user.pk)
 
-    @method_decorator(user_passes_test(lambda u: u.is_authenticated))
-    def dispatch(self, request, *args, **kwargs):
-        return super(ProfileFormView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ProfileFormView, self).get_context_data(**kwargs)
@@ -63,3 +59,4 @@ class ProfileFormView(UpdateView, BaseClassContextMixin):
 
 class Logout(LogoutView):
     template_name = 'mainapp/index.html'
+

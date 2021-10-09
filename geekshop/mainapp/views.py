@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from .models import ProductCategory, Product
 
 
+
 def index(request):
     context = {'title': 'geekshop'}
     return render(request, 'mainapp/index.html', context)

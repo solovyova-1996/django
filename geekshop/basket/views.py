@@ -1,13 +1,11 @@
 from django.http import JsonResponse
 from django.shortcuts import HttpResponseRedirect
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
-from django.views.generic import UpdateView
+
 
 from mainapp.models import Product
 from .models import Basket
 from django.contrib.auth.decorators import login_required
-
 
 
 @login_required
