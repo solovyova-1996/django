@@ -4,3 +4,4 @@ venv/*
 /geekshop/db.sqlite3
 /media
 /__pycache__
+.env
