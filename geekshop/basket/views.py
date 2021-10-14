@@ -19,7 +19,7 @@ def basket_add(request, product_id):
         basket = baskets.first()
         basket.quantity += 1
         basket.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required
@@ -42,5 +42,5 @@ def basket_edit(request, id, quantity):
         context = {
             'baskets': baskets
         }
-        result = render_to_string('basket/basket.html', context)
+        result = render_to_string('basket/basket.html', context, request=request)
         return JsonResponse({'result': result})

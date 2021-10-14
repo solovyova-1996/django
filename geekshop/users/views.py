@@ -18,7 +18,7 @@ class LoginLoginView(LoginView, BaseClassContextMixin):
     template_name = 'users/login.html'
     form_class = UserLoginForm
     title = 'Geekshop - Авторизация'
-    success_url = reverse_lazy('index')
+    # success_url = reverse_lazy('index')
 
 
 class RegisterListview(FormView, BaseClassContextMixin):
@@ -47,10 +47,10 @@ class ProfileFormView(UpdateView, BaseClassContextMixin, CustomDispatchMixinIsAu
     def get_object(self, queryset=None):
         return get_object_or_404(User, pk=self.request.user.pk)
 
-    def get_context_data(self, **kwargs):
-        context = super(ProfileFormView, self).get_context_data(**kwargs)
-        context['baskets'] = Basket.objects.filter(user=self.request.user)
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(ProfileFormView, self).get_context_data(**kwargs)
+    #     context['baskets'] = Basket.objects.filter(user=self.request.user)
+    #     return context
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST, files=request.FILES, instance=self.get_object())
