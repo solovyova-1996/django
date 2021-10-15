@@ -17,10 +17,10 @@ class ProductListview(ListView):
     paginate_by = 3
     ordering = ['-id']
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(ProductListview, self).get_context_data(**kwargs)
-        context['categories'] = ProductCategory.objects.all()
-        return context
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super(ProductListview, self).get_context_data(**kwargs)
+    #     context['categories'] = ProductCategory.objects.all()
+    #     return context
 
     def get_queryset(self):
         if self.kwargs:
