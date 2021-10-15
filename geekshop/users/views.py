@@ -7,9 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib import messages, auth
 from django.views.generic import FormView, UpdateView
 
-
 from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
-from basket.models import Basket
 from geekshop.mixin import BaseClassContextMixin, CustomDispatchMixinIsAuthen
 from .models import User
 
@@ -33,7 +31,8 @@ class RegisterListview(FormView, BaseClassContextMixin):
         if form.is_valid():
             user = form.save()
             if send_verify_link(user):
-                messages.success(request, "Вы успешно зарегистрировались")
+                messages.success(request,
+                                 "Вы успешно зарегистрировались.Для активации профиля вам отправлено письмо на указанную почту")
             return redirect(self.success_url)
         return redirect(self.success_url)
 
