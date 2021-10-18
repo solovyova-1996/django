@@ -3,7 +3,7 @@ from random import random
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.forms import ValidationError
-from users.models import User
+from users.models import User, UserProfile
 from django import forms
 
 
@@ -47,6 +47,7 @@ class UserRegisterForm(UserCreationForm):
         if name == 'Stas':
             raise ValidationError('У вас неподходящее имя')
         return name
+
     def save(self, commit=True):
         user = super(UserRegisterForm, self).save()
         user.is_active = False
@@ -54,6 +55,7 @@ class UserRegisterForm(UserCreationForm):
         user.activation_key = hashlib.sha1((user.email + salt).encode('utf-8')).hexdigest()
         user.save()
         return user
+
 
 class UserProfileForm(UserChangeForm):
     image = forms.ImageField(widget=forms.FileInput(), required=False)
@@ -82,3 +84,18 @@ class UserProfileForm(UserChangeForm):
     #     if name == 'Stas':
     #         raise ValidationError('У вас неподходящее имя')
     #     return name
+
+
+class UserProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('tagline', 'gender', 'about', 'language','photo')
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileEditForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name != 'gender':
+                field.widget.attrs['class'] = 'form-control py-4'
+            else:
+                field.widget.attrs['class'] = 'form-control'
+            self.fields['photo'].widget.attrs['class'] = 'custom-file-input'
