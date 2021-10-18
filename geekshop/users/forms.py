@@ -89,12 +89,13 @@ class UserProfileForm(UserChangeForm):
 class UserProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('tagline', 'gender', 'about', 'language')
+        fields = ('tagline', 'gender', 'about', 'language','photo')
 
-    def __init__(self,*args,**kwargs):
-        super(UserProfileEditForm, self).__init__(*args,**kwargs)
+    def __init__(self, *args, **kwargs):
+        super(UserProfileEditForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             if field_name != 'gender':
                 field.widget.attrs['class'] = 'form-control py-4'
             else:
                 field.widget.attrs['class'] = 'form-control'
+            self.fields['photo'].widget.attrs['class'] = 'custom-file-input'
