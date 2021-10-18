@@ -7,7 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib import messages, auth
 from django.views.generic import FormView, UpdateView
 
-from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from .forms import UserLoginForm, UserRegisterForm, UserProfileForm, UserProfileEditForm
 from geekshop.mixin import BaseClassContextMixin, CustomDispatchMixinIsAuthen
 from .models import User
 
@@ -53,7 +53,8 @@ class ProfileFormView(UpdateView, BaseClassContextMixin, CustomDispatchMixinIsAu
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST, files=request.FILES, instance=self.get_object())
-        if form.is_valid():
+        form_edit = UserProfileEditForm(data=request.POST, instance=request.user.userprofile)
+        if form.is_valid() and form_edit.is_valid():
             form.save()
             return redirect(self.success_url)
         return redirect(self.success_url)
