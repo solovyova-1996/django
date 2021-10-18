@@ -12,7 +12,8 @@ def save_user_profile(backend, user, response, *args, **kwargs):
     if backend.name != 'vk-oauth2':
         return
     api_url = urlunparse(('http', 'api.vk.com', '/method/users.get', None, urlencode(
-        OrderedDict(fields=','.join(('bdate', 'sex', 'about')), access_token=response['access_token'],
+        OrderedDict(fields=','.join(('bdate', 'sex', 'about', 'personal')),
+                    access_token=response['access_token'],
                     v=5.131)), None))
     resp = requests.get(api_url)
     if resp.status_code != 200:
@@ -27,6 +28,8 @@ def save_user_profile(backend, user, response, *args, **kwargs):
         pass
     if data['about']:
         user.userprofile.about = data['about']
+    if data['personal']:
+        user.userprofile.language = ', '.join(data['personal']['langs'])
 
     bdate = datetime.strptime(data['bdate'], '%d.%m.%Y').date()
     age = timezone.now().date().year - bdate.year
