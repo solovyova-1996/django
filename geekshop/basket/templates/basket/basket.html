@@ -20,10 +20,12 @@
                         </div>
                         <div class="col-lg-4">{{ basket.sum }}руб.</div>
                         <div class="col-lg-4">
-                            <a href="{% url 'basket:basket_remove' basket.id %}">
-                                <i class="fas fa-trash"></i>
-                            </a>
-
+                            <form action="{% url 'basket:basket_remove' basket.id %}" method="post">
+                                    <button class="btn btn-outline-secondary " type="submit">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    {% csrf_token %}
+                                </form>
                         </div>
                     </div>
                 </li>
