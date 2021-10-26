@@ -74,6 +74,9 @@ class OrderUpdate(UpdateView):
         OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=1)
         if self.request.POST:
             formset = OrderFormSet(self.request.POST, instance=self.object)
+            for form in formset:
+                if form.instance.pk:
+                    form.initial['price'] = form.instance.product.price
         else:
             formset = OrderFormSet(instance=self.object)
             for form in formset:
@@ -82,6 +85,13 @@ class OrderUpdate(UpdateView):
 
         context['orderitems'] = formset
         return context
+
+    @staticmethod
+    def order_forming_complete(request, pk):
+        order = get_object_or_404(Order, pk=pk)
+        order.status = Order.SEND_TO_PROCEED
+        order.save()
+        return HttpResponseRedirect(reverse('orders:list'))
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -105,10 +115,3 @@ class OrderDelete(DeleteView):
 class OrderDetail(DetailView, BaseClassContextMixin):
     model = Order
     title = 'Geekshop | Просмотр заказа'
-
-
-def order_forming_complete(request, pk):
-    order = get_object_or_404(Order, pk=pk)
-    order.status = Order.SEND_TO_PROCEED
-    order.save()
-    return HttpResponseRedirect(reverse('orders:list'))
