@@ -2,16 +2,19 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-
 from users.models import User
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
-from geekshop.mixin import CustomDispatchMixin
+from geekshop.mixin import CustomDispatchMixin, BaseClassContextMixin
 from .forms import ProductCategoryEditForm, ProductForm
 from mainapp.models import ProductCategory, Product
 
 
-def index(request):
-    return render(request, 'admins/admin.html')
+class AdminView(ListView, BaseClassContextMixin):
+    template_name = 'admins/admin.html'
+    title = 'Админка | Главная'
+
+    def get_queryset(self):
+        return
 
 
 class UserListView(ListView, CustomDispatchMixin):
