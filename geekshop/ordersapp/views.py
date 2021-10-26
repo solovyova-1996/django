@@ -74,9 +74,6 @@ class OrderUpdate(UpdateView):
         OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=1)
         if self.request.POST:
             formset = OrderFormSet(self.request.POST, instance=self.object)
-            for form in formset:
-                if form.instance.pk:
-                    form.initial['price'] = form.instance.product.price
         else:
             formset = OrderFormSet(instance=self.object)
             for form in formset:
