@@ -25,7 +25,6 @@ class Order(models.Model):
         (READY, 'готов к выдаче'),
         (CANCEL, 'отмена заказа'),
     )
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created = models.DateTimeField(verbose_name='создан', auto_now_add=True)
     update = models.DateTimeField(verbose_name='обновлен', auto_now_add=True)
