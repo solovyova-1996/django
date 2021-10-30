@@ -13,8 +13,11 @@ urlpatterns = [
     path('basket/', include('basket.urls', namespace='basket')),
     path('admins/', include('admins.urls', namespace='admins')),
     path('', include('social_django.urls', namespace='social')),
-    path('orders/',include('ordersapp.urls', namespace='orders'))
+    path('orders/', include('ordersapp.urls', namespace='orders'))
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    import debug_toolbar
+
+    urlpatterns += [path('^__debug_/', include(debug_toolbar.urls))]
