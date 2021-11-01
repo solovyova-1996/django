@@ -24,7 +24,9 @@ class BasketView(View):
             basket = baskets.first()
             basket.quantity += 1
             basket.save()
-        return redirect(self.success_url)
+        context = {'page_obj': request.page_obj}
+        result = render_to_string('mainapp/products_list.html', context, request=request)
+        return JsonResponse({'result': result})
 
 # class BasketView(CreateView):
 #     model = Basket
@@ -71,4 +73,4 @@ class BasketUpdateView(UpdateView):
                 basket.delete()
             result = render_to_string('basket/basket.html', request=request)
             return JsonResponse({'result': result})
-        return redirect(self.success_url)
+        # return redirect(self.success_url)

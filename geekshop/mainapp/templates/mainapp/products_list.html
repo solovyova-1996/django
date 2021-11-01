@@ -16,20 +16,17 @@
                     <h5>{{ product.price }} руб.</h5>
                     <p class="card-text">{{ product.description }}</p>
                 </div>
-{#                <form action="{% url 'basket:basket' product.id %}" method="post">#}
+{#                <form action="{% url 'basket:basket' product.id %}" method="GET">#}
 {#                     {% csrf_token %}#}
 {#                    <div class="card-footer text-center">#}
-{#                        <button class="btn btn-outline-success " type="button" >#}
+{#                        <button class="btn btn-outline-success"  type="button" name="{{ product.id }}" >#}
 {#                                        Отправить в корзину</button>#}
 {#                    </div>#}
 {#                      </form>#}
                         <div class="card-footer text-center button_add">
-                            <a href="{% url 'basket:basket' product.pk %}"
-                               class="btn btn-outline-success" name="{{ product.id }}">
-{#                                <button type="button" name="{{ product.id }}">Отправить в#}
-{#                                корзину</button>#}
-                                Отправить в
-                                корзину
+                            <a href="{% url 'basket:basket' product.pk %}">
+                                <button type="button" class="btn btn-outline-success" name="{{ product.id }}" value="{{ page_obj.object_list }}">Отправить в
+                                корзину</button>
                             </a>
                         </div>
                     </div>
