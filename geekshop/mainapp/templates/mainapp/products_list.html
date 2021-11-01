@@ -25,7 +25,7 @@
 {#                      </form>#}
                         <div class="card-footer text-center button_add">
                             <a href="{% url 'basket:basket' product.pk %}">
-                                <button type="button" class="btn btn-outline-success" name="{{ product.id }}" value="{{ page_obj.object_list }}">Отправить в
+                                <button type="button" class="btn btn-outline-success" name="{{ product.id }}" value="{{ page_obj }}">Отправить в
                                 корзину</button>
                             </a>
                         </div>
