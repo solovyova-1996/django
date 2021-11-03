@@ -13,20 +13,20 @@ window.addEventListener("load", () => {
         event.preventDefault()
     });
 
-    // $('.products_list').on('click', 'button[type="button"]', function () {
-    //     let t_href = event.target;
-    //     console.log(t_href.name)
-    //     let page_obj = t_href.value;
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/basket/add/' + t_href.name + '/',
-    //         data: {'page_obj': page_obj},
-    //         success: function (data) {
-    //             if (data) {
-    //                 $('.products_list').html(data.result)
-    //             }
-    //         },
-    //     });
-    //     event.preventDefault();
-    // });
+    $('.products_list').on('click', 'button[type="button"]', function () {
+        let t_href = event.target;
+        console.log(t_href.name)
+        let page_obj = t_href.value;
+        $.ajax({
+            type: 'GET',
+            url: '/basket/add/' + t_href.name + '/',
+            data: {'page_obj': page_obj},
+            success: function (data) {
+                if (data) {
+                    $('.products_list').html(data.result)
+                }
+            },
+        });
+        event.preventDefault();
+    });
 }, false);
