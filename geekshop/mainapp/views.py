@@ -24,7 +24,7 @@ class ProductListview(ListView, BaseClassContextMixin):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductListview, self).get_context_data(**kwargs)
-        context['products'] = self.get_link_product()
+        context['products'] = Product.objects.all()
         return context
 
     def get_queryset(self):
@@ -32,9 +32,9 @@ class ProductListview(ListView, BaseClassContextMixin):
             if 'category_id' in self.kwargs.keys():
                 return Product.objects.filter(category=self.kwargs['category_id'])
             elif 'discharge' in self.kwargs.keys():
-                return self.get_link_product()
+                return Product.objects.all()
         else:
-            return self.get_link_product()
+            return Product.objects.all()
     @staticmethod
     def get_link_product():
         if settings.LOW_CACHE:
