@@ -219,7 +219,7 @@ CACHE_MIDDLEWARE_KEY_PREFIX = 'geekshop'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '89.108.76.226:112111',
+        'LOCATION': '89.108.76.226:65535',
     }
 }
 LOW_CACHE = True
