@@ -11,7 +11,7 @@ NULL_INSTALL = {'null': True, 'blank': True}
 
 
 class User(AbstractUser):
-    image = models.ImageField(upload_to='users_image', blank=True)
+    image = models.ImageField(upload_to='users_image', blank=True,max_length=250)
     age = models.PositiveIntegerField(default=18)
     activation_key = models.CharField(max_length=128, **NULL_INSTALL)
     # activation_key_created = models.DateTimeField(default=(now() + timedelta(hours=48)))
@@ -36,7 +36,7 @@ class UserProfile(models.Model):
     about = models.TextField(blank=True, null=True, verbose_name='о себе')
     gender = models.CharField(verbose_name='пол', choices=GENDER_CHOICES, blank=True, max_length=5)
     language = models.CharField(verbose_name='язык', blank=True, max_length=128, null=True)
-    photo = models.ImageField(verbose_name='фото', upload_to='users_image', blank=True)
+    photo = models.ImageField(verbose_name='фото', upload_to='users_image', blank=True,max_length=250)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):

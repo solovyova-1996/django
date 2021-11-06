@@ -1,10 +1,10 @@
-# from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 # from django.views import View
 from django.views.generic import ListView, DetailView
 from geekshop.mixin import BaseClassContextMixin
 from .models import Product, ProductCategory
-# from django.conf import settings
-# from django.core.cache import cache
+from django.conf import settings
+from django.core.cache import cache
 
 
 class IndexView(ListView, BaseClassContextMixin):
@@ -59,16 +59,16 @@ class ProductListview(ListView, BaseClassContextMixin):
     #         return link_category
     #     else:
     #         return ProductCategory.objects.all()
-# def get_product(pk):
-#     if settings.LOW_CACHE:
-#         key = f'product{pk}'
-#         product = cache.get(key)
-#         if product is None:
-#             product = get_object_or_404(Product,pk=pk)
-#             cache.set(key,product)
-#         return product
-#     else:
-#         return get_object_or_404(Product,pk=pk)
+def get_product(pk):
+    if settings.LOW_CACHE:
+        key = f'product{pk}'
+        product = cache.get(key)
+        if product is None:
+            product = get_object_or_404(Product,pk=pk)
+            cache.set(key,product)
+        return product
+    else:
+        return get_object_or_404(Product,pk=pk)
 
 class ProductDetail(DetailView):
     model = Product
@@ -77,5 +77,6 @@ class ProductDetail(DetailView):
 
     def get_context_data(self, category_id=None, *args, **kwargs):
         context = super(ProductDetail, self).get_context_data()
+        context['product'] = get_product(self.kwargs.get('pk'))
         context['categories'] = ProductCategory.objects.all()
         return context
