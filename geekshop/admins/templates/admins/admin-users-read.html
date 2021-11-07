@@ -20,6 +20,7 @@
                                     <th>Адрес эл. почты</th>
                                     <th>Персонал сайта</th>
                                     <th>Активный</th>
+                                    <th>Изменить статус</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -30,6 +31,7 @@
                                     <th>Адрес эл. почты</th>
                                     <th>Персонал сайта</th>
                                     <th>Активный</th>
+                                    <th>Изменить статус</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -55,6 +57,15 @@
                                             {% else %}
                                                 <i class="fas fa-times-circle"></i>
                                             {% endif %}
+                                        </td>
+                                    <td>
+                                            <form action="{% url 'admins:admins_user_delete' user.id %}"
+                                                  method="post">
+                                                {% csrf_token %}
+                                                <input style="background-color: #1c7430 {% if user.is_active %} red {% endif %}"
+                                                       class="btn btn-danger btn-block" type="submit"
+                                                       value="{% if user.is_active %}Удалить{% else %} Восстановить{% endif %}">
+                                            </form>
                                         </td>
                                     </tr>
                                 {% endfor %}

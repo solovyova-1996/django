@@ -127,8 +127,10 @@ class CategoriesDeleteView(DeleteView, CustomDispatchMixin):
         self.object = self.get_object()
         if self.object.is_active:
             self.object.is_active = False
+            self.object.product_set.update(is_active=False)
         else:
             self.object.is_active = True
+            self.object.product_set.update(is_active=True)
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -171,7 +173,7 @@ class ProductUpdateView(UpdateView, CustomDispatchMixin):
 class ProductDeleteView(DeleteView, CustomDispatchMixin):
     model = Product
     template_name = 'admins/admin-products-update-delete.html'
-    success_url = reverse_lazy('admins:admins_products')
+    # success_url = reverse_lazy('admins:admins_products')
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -180,4 +182,5 @@ class ProductDeleteView(DeleteView, CustomDispatchMixin):
         else:
             self.object.is_active = True
         self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+        # return HttpResponseRedirect(self.get_success_url())
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
