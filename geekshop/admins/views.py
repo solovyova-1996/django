@@ -1,12 +1,20 @@
+from django.db import connection
+from django.db.models import F
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from users.models import User
-from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
+from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, ProductCategoryUpdateForm
 from geekshop.mixin import CustomDispatchMixin, BaseClassContextMixin
 from .forms import ProductCategoryEditForm, ProductForm
 from mainapp.models import ProductCategory, Product
+
+
+def db_profile_by_type(prefix, type, queries):
+    update_queries = list(filter(lambda x: type in x['sql'], queries))
+    print(f'db_profile {type} for {prefix}:')
+    [print(query['sql']) for query in update_queries]
 
 
 class AdminView(ListView, BaseClassContextMixin):
@@ -92,13 +100,22 @@ class CategoriesCreateView(CreateView, CustomDispatchMixin):
 class CategoriesUpdateView(UpdateView, CustomDispatchMixin):
     model = ProductCategory
     template_name = 'admins/admin-categories-update-delete.html'
-    form_class = ProductCategoryEditForm
+    form_class = ProductCategoryUpdateForm
     success_url = reverse_lazy('admins:admins_categories')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Админка | Редактирование категории'
         return context
+
+    def form_valid(self, form):
+        if 'discount' in form.cleaned_data:
+            discount = form.cleaned_data['discount']
+            if discount:
+                print(f'применяется скидка {discount}% к товарам категории {self.object.name}')
+                self.object.product_set.update(price=F('price') * (1 - discount / 100))
+                db_profile_by_type(self.__class__, 'UPDATE', connection.queries)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class CategoriesDeleteView(DeleteView, CustomDispatchMixin):
