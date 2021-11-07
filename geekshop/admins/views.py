@@ -1,6 +1,8 @@
 from django.db import connection
 from django.db.models import F
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponseRedirect
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -182,5 +184,7 @@ class ProductDeleteView(DeleteView, CustomDispatchMixin):
         else:
             self.object.is_active = True
         self.object.save()
+        # result = render_to_string('admins/inc.html', request=request)
+        # return JsonResponse({'result': result})
         # return HttpResponseRedirect(self.get_success_url())
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
