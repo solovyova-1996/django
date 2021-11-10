@@ -156,7 +156,7 @@ class ProductCreateView(CreateView, CustomDispatchMixin):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductCreateView, self).get_context_data(**kwargs)
-        context['title'] = 'Админка | Редактирование продукта'
+        context['title'] = 'Админка | Создание продукта'
         return context
 
 

@@ -24,11 +24,13 @@
             <tbody>
             {% for item in object_list %}
                 {% if item.is_active %}
-                    <tr>
+                    <tr style=" {% if item.get_status_display == 'отправлен в обработку' %}background-color:palegreen {% endif %}">
                         <td class="td1 orders_list">{{ item.pk }}</td>
                         <td>{{ item.created|date:"Y-m-d H:i:s" }}</td>
                         <td>{{ item.updated|date:"Y-m-d H:i:s" }}</td>
+
                         <td>{{ item.get_status_display }}</td>
+
                         <td>
                             <a href="{% url 'orders:read' item.pk %}">
                                 посмотреть

@@ -5,7 +5,8 @@ from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import UpdateView, DeleteView, CreateView
+from django.views.generic import UpdateView, DeleteView, CreateView, FormView
+from django.views.generic.edit import FormMixin, ProcessFormView
 
 from mainapp.models import Product
 from .models import Basket
@@ -38,9 +39,22 @@ class BasketView(View):
 #     fields = ['product']
 #     success_url = reverse_lazy('products:index')
 #
-#     def post(self, request, *args,**kwargs):
-#         # product = Product.objects.get(id=kwargs['pk'])
-#         product = self.get_object(Product.objects.filter()) #Product.objects.get(id=pk)
+#     def __init__(self,*args,**kwargs):
+#         super(BasketView, self).__init__(*args,**kwargs)
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(BasketView, self).get_context_data(**kwargs)
+#         context['products'] = self.get_object().Product.objects.all()
+#         return context
+#     # def get_context_data(self,*, object_list=None, **kwargs):
+#     #     context = super(BasketView, self).get_context_data(**kwargs)
+#     #     return context
+#
+#     def get(self, request, *args,**kwargs):
+#
+#         product = Product.objects.get(id=kwargs['pk'])
+#         # product = self.get_object()
+#         # print(product,'g')
 #         baskets = Basket.objects.filter(user=self.request.user, product=product)
 #         if not baskets.exists():
 #             Basket.objects.create(user=self.request.user, product=product, quantity=1)
@@ -48,9 +62,12 @@ class BasketView(View):
 #             basket = baskets.first()
 #             basket.quantity += 1
 #             basket.save()
-#         context = super().get_context_data(**kwargs)
-#         context.update({'products': Product.objects.all()})
-#         result = render_to_string('mainapp/products_list.html', context,request=request)
+#         # page = {}
+#         # page['page']=self.request.POST['page_obj']
+#         context = super(BasketView, self).get_context_data(**kwargs)
+#
+#         # context.update({'page_obj': self.request.POST['page_obj']})
+#         result = render_to_string('mainapp/products_list.html',context=context, request=request)
 #         return JsonResponse({'result': result})
 
 class BasketDeleteView(DeleteView):

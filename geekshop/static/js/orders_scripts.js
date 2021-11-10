@@ -60,6 +60,7 @@ window.onload = function () {
          let target = event.target
          orderitem_num = parseInt(target.name.replace('orderitems-', '').replace('-product', ''));
          let orderitem_product_pk = target.options[target.selectedIndex].value;
+         console.log(orderitem_product_pk)
          if (orderitem_product_pk) {
              $.ajax({
                  url: '/orders/product/' + orderitem_product_pk + '/price/',
@@ -71,7 +72,7 @@ window.onload = function () {
                          }
                          let price_html = '<span class="orderitems-' + orderitem_num + 'price">' + data.price.toString().replace(".", ",") + '</span> руб';
                          let current_tr = $('.order_form table').find('tr:eq(' + (orderitem_num + 1) + ')');
-                         current_tr.find('td:eq(2').html(price_html);
+                         current_tr.find('td:eq(2)').html(price_html);
                      }
                  }
 

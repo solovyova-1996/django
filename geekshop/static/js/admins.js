@@ -12,13 +12,13 @@
 //         //     });
 //
 //         $.ajax ({
-//             // type: 'POST',
+//             type: 'POST',
 //             url: '/admins/products-delete/' + t_href.name + '/',
 //             success: function (data) {
-//                 $('.products-admins').html(data.result)
+//                 $('.table-responsive').html(data.result)
 //             },
 //         });
 //         event.preventDefault()
 //     });
-
+//
 // }, false);
